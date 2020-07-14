@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.chapter12.dao.UserDao">
+  <select id="getUser" parameterType="string"  resultType="dbuser">
+    SELECT id, user_name as userName, pwd, available, note FROM t_user where user_name = #{userName}
+  </select>
+</mapper>

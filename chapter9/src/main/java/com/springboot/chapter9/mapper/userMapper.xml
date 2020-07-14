@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.chapter9.dao.UserDao">
+
+	<select id="getUser" resultType="user">
+		select id, user_name as userName, note from t_user where id = #{id}
+	</select>
+	
+	<select id="findUsers" resultType="user">
+	   select id, user_name as userName, note from t_user
+	   <where>
+	        <if test="userName != null"> and user_name like concat('%', #{userName}, '%')</if>
+	        <if test="note != null"> and note like concat('%', #{note}, '%')</if>
+	   </where>
+	</select>
+	
+</mapper>

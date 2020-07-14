@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.chapter15.dao.ProductDao">
+	<!-- 获取产品 -->
+	<select id="getProduct" parameterType="long" resultType="product">
+		select id, product_name as productName,
+		stock, price, version, note from t_product
+		where id=#{id}
+	</select>
+
+	<!-- 减库存 -->
+	<update id="decreaseProduct">
+		update t_product set stock = stock - #{quantity},
+		version = version +1
+		where id = #{id} 
+	</update>
+</mapper>

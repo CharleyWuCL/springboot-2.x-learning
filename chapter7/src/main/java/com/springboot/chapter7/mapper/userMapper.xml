@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.chapter7.dao.UserDao">
+
+	<select id="getUser" parameterType="long" resultType="user">
+		select id, user_name as userName, note from t_user
+		where id = #{id}
+	</select>
+
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="user">
+		insert into t_user(user_name, note)
+		values(#{userName}, #{note})
+	</insert>
+
+	<update id="updateUser">
+		update t_user
+		<set>
+			<if test="userName != null">user_name =#{userName},</if>
+			<if test="note != null">note =#{note}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="findUsers" resultType="user">
+		select id, user_name as userName, note from t_user
+		<where>
+			<if test="userName != null">
+				and user_name = #{userName}
+			</if>
+			<if test="note != null">
+				and note = #{note}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteUser" parameterType="long">
+		delete from t_user where id = #{id}
+	</delete>
+</mapper>

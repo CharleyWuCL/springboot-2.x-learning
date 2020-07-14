@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.chapter11.dao.UserDao">
+    <resultMap type="user" id="userMapper">
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="sex" property="sex" typeHandler="com.springboot.chapter11.typeHandler.SexTypeHandler"/>
+        <result column="note" property="note"/>
+    </resultMap>
+    
+	<select id="getUser" resultMap="userMapper">
+		select id, user_name, sex, note from t_user where id = #{id}
+	</select>
+	
+	<select id="findUsers" resultMap="userMapper">
+	   select id, user_name, sex, note from t_user
+	   <where>
+	        <if test="userName != null"> and user_name like concat('%', #{userName}, '%')</if>
+	        <if test="note != null"> and note like concat('%', #{note}, '%')</if>
+	   </where>
+	   limit #{start}, #{limit}
+	</select>
+	
+	<insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+	    insert into t_user(user_name, sex, note) values(#{userName}, #{sex, typeHandler=com.springboot.chapter11.typeHandler.SexTypeHandler}, #{note})
+	</insert>
+	
+	<update id="updateUser" parameterType="user">
+	    update t_user 
+	    <set>
+	        <if test="userName != null"> user_name = #{userName},</if>
+	        <if test="sex != null"> sex = #{sex, typeHandler=com.springboot.chapter11.typeHandler.SexTypeHandler},</if>
+	        <if test="note != null">note = #{note}</if>
+	    </set>
+	    where id= #{id}
+	</update>
+	
+	<update id="updateUserName">
+	     update t_user set user_name = #{userName} where id = #{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="long">
+	    delete from t_user where id = #{id}
+	</delete>
+</mapper>
